@@ -1,0 +1,283 @@
+openapi: 3.0.1
+info:
+  title: 求租委托合约服务文档
+  description: 委托合约服务
+  termsOfService: urn:tos
+  contact: {}
+  version: "1.0"
+servers:
+- url: //localhost:8080/
+paths:
+  "/apartment-for-rent-request/{id}/proposal/contract":
+    post:
+      tags:
+      - 求租委托合约
+      summary: 创建求租委托合约
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: registration details with serial number and test result
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApartmentForRentContractRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CreateApartmentForRentContractResponse'
+                
+  "/apartment-for-rent-request/{id}/proposal/contract/sign":
+    post:
+      tags:
+      - 求租委托合约
+      summary: 求租委托合约签字
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignApartmentForRentContractRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SignApartmentForRentContractResponse'
+                
+  "/apartment-for-rent-request/{id}/proposal/contract/view-apartment-request":
+    post:
+      tags:
+      - 求租委托合约
+      summary: 看房请求
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ViewRequestForApartmentForRentRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ViewRequestForApartmentForRentResponse'
+
+  "/apartment-to-rent-request/{id}/proposal/contract/view-apartment-request/confirmation":
+    post:
+      tags:
+      - 求租委托合约
+      summary: 看房请求确认
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ViewConfirmationForApartmentForRentRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ViewConfirmationForApartmentForRentResponse'
+                
+  "/apartment-to-rent-request/{id}/proposal/contract/search-apartment-request":
+    post:
+      tags:
+      - 求租委托合约
+      summary: 请求寻房
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequestForApartmentToRentRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SearchRequestForApartmentToRentResponse'
+
+  "/apartment-to-rent-request/{id}/proposal/contract/search-apartment-request/confirmation":
+    post:
+      tags:
+      - 求租委托合约
+      summary: 寻房成功
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchConfirmationForApartmentToRentRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SearchConfirmationForApartmentToRentResponse'
+   
+components:
+  schemas:
+    CreateApartmentForRentContractRequest:
+      title: CreateApartmentForRentContractRequest
+      type: object
+      properties:
+        location:
+          type: string
+        type:
+          type: string
+        price:
+          type: number 
+        startDate:
+          type: string
+        endDate:
+          type: string
+        fee:
+          type: number
+
+    CreateApartmentForRentContractResponse:
+      title: CreateApartmentForRentContractResponse
+      type: object
+      properties:
+        id:
+          type: string
+        location:
+          type: string
+        type:
+          type: string
+        price:
+          type: number 
+        startDate:
+          type: string
+        endDate:
+          type: string
+        fee:
+          type: number
+
+    SignApartmentForRentContractRequest:
+      title: SignApartmentForRentContractRequest
+      type: object
+      properties:
+        contractId:
+          type: number
+          
+    SignApartmentForRentContractResponse:
+      title: SignApartmentForRentContractResponse
+      type: object
+      properties:
+        contractId:
+          type: number
+    
+    ViewRequestForApartmentForRentRequest:
+      title: ViewRequestForApartmentForRentRequest
+      type: object
+      properties:
+        contractId:
+          type: number
+        date:
+          type: string
+
+    ViewRequestForApartmentForRentResponse:
+      title: ViewRequestForApartmentForRentResponse
+      type: object
+      properties:
+        contractId:
+          type: number
+        date:
+          type: string
+          
+    ViewConfirmationForApartmentForRentRequest:
+      title: RentConfirmationForApartmentForRentRequest
+      type: object
+      properties:
+        contractId:
+          type: number
+        date:
+          type: string
+
+    ViewConfirmationForApartmentForRentResponse:
+      title: RentConfirmationForApartmentForRentResponse
+      type: object
+      properties:
+        contractId:
+          type: number
+        date:
+          type: string
+          
+    SearchRequestForApartmentToRentRequest:
+      title: SearchRequestForApartmentToRentRequest
+      type: object
+      properties:
+        contractId:
+          type: number
+        startDate:
+          type: string
+        endDate:
+          type: string
+
+    SearchRequestForApartmentToRentResponse:
+      title: SearchRequestForApartmentToRentResponse
+      type: object
+      properties:
+        contractId:
+          type: number
+        startDate:
+          type: string
+        endDate:
+          type: string
+          
+    SearchConfirmationForApartmentToRentRequest:
+      title: SearchRequestForApartmentToRentRequest
+      type: object
+      properties:
+        contractId:
+          type: number
+
+    SearchConfirmationForApartmentToRentResponse:
+      title: SearchRequestForApartmentToRentResponse
+      type: object
+      properties:
+        contractId:
+          type: number
