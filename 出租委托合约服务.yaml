@@ -1,0 +1,268 @@
+openapi: 3.0.1
+info:
+  title: 出租委托合约服务文档
+  description: 委托合约服务
+  termsOfService: urn:tos
+  contact: {}
+  version: "1.0"
+servers:
+- url: //localhost:8080/
+paths:
+  "/apartment-to-rent-request/{id}/proposal/contract":
+    post:
+      tags:
+      - 出租委托合约
+      summary: 创建出租委托合约
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: registration details with serial number and test result
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApartmentForRentContractRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CreateApartmentForRentContractResponse'
+                
+  "/apartment-to-rent-request/{id}/proposal/contract/sign":
+    post:
+      tags:
+      - 出租委托合约
+      summary: 出租委托合约签字
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignApartmentForRentContractRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SignApartmentForRentContractResponse'
+                
+  "/apartment-to-rent-request/{id}/proposal/contract/revoke":
+    post:
+      tags:
+      - 出租委托合约
+      summary: 撤销合同上的房源
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RevokeApartmentForRentRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RevokeApartmentForRentResponse'
+                
+  "/apartment-to-rent-request/{id}/proposal/contract/rent-request":
+    post:
+      tags:
+      - 出租委托合约
+      summary: 合约上的房源出租请求
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RentRequestForApartmentForRentRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RentRequestForApartmentForRentResponse'
+
+  "/apartment-to-rent-request/{id}/proposal/contract/rent-request/confirmation":
+    post:
+      tags:
+      - 出租委托合约
+      summary: 合约上的房源出租确认
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RentConfirmationForApartmentForRentRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RentConfirmationForApartmentForRentResponse'
+   
+components:
+  schemas:
+    CreateApartmentForRentContractRequest:
+      title: CreateApartmentForRentContractRequest
+      type: object
+      properties:
+        location:
+          type: string
+        type:
+          type: string
+        price:
+          type: number 
+        candidateDescription:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        fee:
+          type: number
+
+    CreateApartmentForRentContractResponse:
+      title: CreateApartmentForRentContractResponse
+      type: object
+      properties:
+        id:
+          type: string
+        location:
+          type: string
+        type:
+          type: string
+        price:
+          type: number 
+        candidateDescription:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        fee:
+          type: number
+
+    SignApartmentForRentContractRequest:
+      title: SignApartmentForRentContractRequest
+      type: object
+      properties:
+        contractId:
+          type: number
+          
+    SignApartmentForRentContractResponse:
+      title: SignApartmentForRentContractResponse
+      type: object
+      properties:
+        contractId:
+          type: number
+  
+    RevokeApartmentForRentRequest:
+      title: RevokeApartmentForRentRequest
+      type: object
+      properties:
+        contractId:
+          type: number
+          
+    RevokeApartmentForRentResponse:
+      title: RevokeApartmentForRentResponse
+      type: object
+      properties:
+        contractId:
+          type: number
+    
+    RentRequestForApartmentForRentRequest:
+      title: RentRequestForApartmentForRentRequest
+      type: object
+      properties:
+        contractId:
+          type: number
+        candidate:
+          type: string
+        price:
+          type: number
+        startDate:
+          type: string
+        endDate:
+          type: string
+
+    RentRequestForApartmentForRentResponse:
+      title: RentRequestForApartmentForRentResponse
+      type: object
+      properties:
+        contractId:
+          type: number
+        candidate:
+          type: string
+        price:
+          type: number
+        startDate:
+          type: string
+        endDate:
+          type: string
+          
+    RentConfirmationForApartmentForRentRequest:
+      title: RentConfirmationForApartmentForRentRequest
+      type: object
+      properties:
+        contractId:
+          type: number
+        candidate:
+          type: string
+        price:
+          type: number
+        startDate:
+          type: string
+        endDate:
+          type: string
+        signature:
+          type: string
+
+    RentConfirmationForApartmentForRentResponse:
+      title: RentConfirmationForApartmentForRentResponse
+      type: object
+      properties:
+        contractId:
+          type: number
+        candidate:
+          type: string
+        price:
+          type: number
+        startDate:
+          type: string
+        endDate:
+          type: string
+        signature:
+          type: string
