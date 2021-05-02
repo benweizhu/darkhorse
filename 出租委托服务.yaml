@@ -1,0 +1,140 @@
+openapi: 3.0.1
+info:
+  title: 出租委托服务文档
+  description: 出租服务
+  termsOfService: urn:tos
+  contact: {}
+  version: "1.0"
+servers:
+- url: //localhost:8080/
+paths:
+  "/apartment-to-rent-request/{id}":
+    get:
+      tags:
+      - 出租委托服务RFP
+      summary: 获取出租委托服务RFP详情
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CreateApartmentToRentResponse'
+  "/apartment-to-rent-request":
+    post:
+      tags:
+      - 出租委托服务RFP
+      summary: 创建出租委托服务RFP
+      operationId: createRegistrations
+      requestBody:
+        description: registration details with serial number and test result
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApartmentToRentRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CreateApartmentToRentResponse'
+  "/apartment-to-rent-request/{id}/proposal":
+    get:
+      tags:
+      - 出租委托服务Proposal
+      summary: 获取出租委托服务Proposal详情
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CreateApartmentToRentProposalResponse'
+    post:
+      tags:
+      - 出租委托服务Proposal
+      summary: 创建出租委托服务Proposal
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApartmentToRentProposalRequest'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CreateApartmentToRentProposalResponse'
+   
+components:
+  schemas:
+    CreateApartmentToRentResponse:
+      title: CreateApartmentToRentResponse
+      type: object
+      properties:
+        id: 
+          type: string
+        location:
+          type: string
+        priceMin:
+          type: number 
+        priceMax:
+          type: number
+        type:
+          type: string
+    CreateApartmentToRentRequest:
+      title: CreateApartmentToRentRequest
+      type: object
+      properties:
+        location:
+          type: string
+        priceMin:
+          type: number 
+        priceMax:
+          type: number
+        type:
+          type: string
+    CreateApartmentToRentProposalRequest:
+      title: CreateApartmentToRentProposalRequest
+      type: object
+      properties:
+        fee:
+          type: string
+        workingHour:
+          type: string
+        rate:
+          type: string
+    CreateApartmentToRentProposalResponse:
+      title: CreateApartmentToRentProposalResponse
+      type: object
+      properties:
+        id:
+          type: integer
+        fee:
+          type: string
+        workingHour:
+          type: string
+        rate:
+          type: string
